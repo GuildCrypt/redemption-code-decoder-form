@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redemption Code Decoder Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <h4>Redemption Code Base2048 English:</h4>
+    <textarea id="redemption-code-encoding-base2048-english" class="form-control"></textarea>
+    <button onclick="decode()" class="btn btn-primary">Decode</button>
+    <pre id="redemption-code-pojo" class="pre"></pre>
+    <script type="text/javascript" src="./lib/base2048.js"></script>
+    <script type="text/javascript" src="./lib/redeemer.js"></script>
+    <script type="text/javascript">
+      $redemptionCodeEncodingBase2048English = document.getElementById('redemption-code-encoding-base2048-english')
+      $redemptionCodePojo = document.getElementById('redemption-code-pojo')
+      function decode() {
+        try {
+          const redemptionCodeEncodingBase2048English = $redemptionCodeEncodingBase2048English.value.trim()
+          const redemptionCodeEncoding = base2048.english.decode(redemptionCodeEncodingBase2048English)
+          const redemptionCodePojo = redeemer.getRedemptionCodePojo(redemptionCodeEncoding)
+          delete redemptionCodePojo.nonce
+          $redemptionCodePojo.innerText = JSON.stringify(redemptionCodePojo, null, 4)
+        } catch(err) {
+          alert(err.message)
+        }
+      }
+    </script>
+  </body>
+</html>
